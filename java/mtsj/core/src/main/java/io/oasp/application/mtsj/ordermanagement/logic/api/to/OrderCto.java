@@ -21,8 +21,6 @@ public class OrderCto extends AbstractCto {
 
   private List<OrderLineCto> orderLines;
 
-  private BookingEto host;
-
   public OrderEto getOrder() {
 
     return this.order;
@@ -31,26 +29,6 @@ public class OrderCto extends AbstractCto {
   public void setOrder(OrderEto order) {
 
     this.order = order;
-  }
-
-  public BookingEto getBooking() {
-
-    return this.booking;
-  }
-
-  public void setBooking(BookingEto booking) {
-
-    this.booking = booking;
-  }
-
-  public InvitedGuestEto getInvitedGuest() {
-
-    return this.invitedGuest;
-  }
-
-  public void setInvitedGuest(InvitedGuestEto invitedGuest) {
-
-    this.invitedGuest = invitedGuest;
   }
 
   public List<OrderLineCto> getOrderLines() {
@@ -63,14 +41,36 @@ public class OrderCto extends AbstractCto {
     this.orderLines = orderLines;
   }
 
-  public BookingEto getHost() {
+  /**
+   * @return booking
+   */
+  public BookingEto getBooking() {
 
-    return this.host;
+    return this.booking;
   }
 
-  public void setHost(BookingEto host) {
+  /**
+   * @param booking new value of {@link #getbooking}.
+   */
+  public void setBooking(BookingEto booking) {
 
-    this.host = host;
+    this.booking = booking;
+  }
+
+  /**
+   * @return invitedGuest
+   */
+  public InvitedGuestEto getInvitedGuest() {
+
+    return this.invitedGuest;
+  }
+
+  /**
+   * @param invitedGuest new value of {@link #getinvitedGuest}.
+   */
+  public void setInvitedGuest(InvitedGuestEto invitedGuest) {
+
+    this.invitedGuest = invitedGuest;
   }
 
 }

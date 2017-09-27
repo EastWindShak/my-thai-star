@@ -43,27 +43,13 @@ public class OrderDaoImpl extends ApplicationDaoImpl<OrderEntity> implements Ord
     EntityPathBase<OrderEntity> alias = Alias.$(order);
     JPAQuery query = new JPAQuery(getEntityManager()).from(alias);
 
-    Long booking = criteria.getBookingId();
-    if (booking != null && order.getBooking() != null) {
-      query.where(Alias.$(order.getBooking().getId()).eq(booking));
+    Long bookingId = criteria.getBookingId();
+    if (bookingId != null) {
+      query.where(Alias.$(order.getBookingId()).eq(bookingId));
     }
-    Long invitedGuest = criteria.getInvitedGuestId();
-    if (invitedGuest != null && order.getInvitedGuest() != null) {
-      query.where(Alias.$(order.getInvitedGuest().getId()).eq(invitedGuest));
-    }
-    String hostToken = criteria.getHostToken();
-    if (hostToken != null && order.getHost() != null) {
-      query.where(Alias.$(order.getBooking().getBookingToken()).eq(hostToken));
-    }
-
-    String email = criteria.getEmail();
-    if (email != null) {
-      query.where(Alias.$(order.getBooking().getEmail()).eq(email));
-    }
-
-    String bookingToken = criteria.getBookingToken();
-    if (bookingToken != null) {
-      query.where(Alias.$(order.getBooking().getBookingToken()).eq(bookingToken));
+    Long invitedGuestId = criteria.getInvitedGuestId();
+    if (invitedGuestId != null) {
+      query.where(Alias.$(order.getInvitedGuestId()).eq(invitedGuestId));
     }
 
     addOrderBy(query, alias, order, criteria.getSort());
@@ -85,30 +71,6 @@ public class OrderDaoImpl extends ApplicationDaoImpl<OrderEntity> implements Ord
             query.orderBy(Alias.$(order.getInvitedGuestId()).asc());
           } else {
             query.orderBy(Alias.$(order.getInvitedGuestId()).desc());
-          }
-        } else if ("hostToken".equals(orderEntry.getName())) {
-          if (OrderDirection.ASC.equals(orderEntry.getDirection())) {
-            query.orderBy(Alias.$(order.getBooking().getBookingToken()).asc());
-          } else {
-            query.orderBy(Alias.$(order.getBooking().getBookingToken()).desc());
-          }
-        } else if ("bookingToken".equals(orderEntry.getName())) {
-          if (OrderDirection.ASC.equals(orderEntry.getDirection())) {
-            query.orderBy(Alias.$(order.getBooking().getBookingToken()).asc());
-          } else {
-            query.orderBy(Alias.$(order.getBooking().getBookingToken()).desc());
-          }
-        } else if ("email".equals(orderEntry.getName())) {
-          if (OrderDirection.ASC.equals(orderEntry.getDirection())) {
-            query.orderBy(Alias.$(order.getBooking().getEmail()).asc());
-          } else {
-            query.orderBy(Alias.$(order.getBooking().getEmail()).desc());
-          }
-        } else if ("bookingDate".equals(orderEntry.getName())) {
-          if (OrderDirection.ASC.equals(orderEntry.getDirection())) {
-            query.orderBy(Alias.$(order.getBooking().getBookingDate()).asc());
-          } else {
-            query.orderBy(Alias.$(order.getBooking().getBookingDate()).desc());
           }
         }
       }

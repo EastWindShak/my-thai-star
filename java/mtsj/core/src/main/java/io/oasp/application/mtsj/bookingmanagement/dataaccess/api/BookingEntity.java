@@ -3,13 +3,12 @@ package io.oasp.application.mtsj.bookingmanagement.dataaccess.api;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
@@ -21,8 +20,6 @@ import io.oasp.application.mtsj.bookingmanagement.common.api.Booking;
 import io.oasp.application.mtsj.bookingmanagement.common.api.datatype.BookingType;
 import io.oasp.application.mtsj.general.common.api.validation.EmailExtended;
 import io.oasp.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity;
-import io.oasp.application.mtsj.ordermanagement.dataaccess.api.OrderEntity;
-import io.oasp.application.mtsj.usermanagement.dataaccess.api.UserEntity;
 
 @Entity
 @Table(name = "Booking")
@@ -53,13 +50,11 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   private TableEntity table;
 
-  private OrderEntity order;
+  private Long orderId;
 
-  private UserEntity user;
+  private Long userId;
 
   private List<InvitedGuestEntity> invitedGuests;
-
-  private List<OrderEntity> orders;
 
   @Min(value = 1, message = "Assistants must be greater than 0")
   @Digits(integer = 2, fraction = 0)
@@ -287,61 +282,17 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
     }
   }
 
-  /**
-   * @return order
-   */
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idOrder")
-  public OrderEntity getOrder() {
-
-    return this.order;
-  }
-
-  /**
-   * @param order new value of {@link #getorder}.
-   */
-  public void setOrder(OrderEntity order) {
-
-    this.order = order;
-  }
-
   @Override
-  @Transient
+  @Column(name = "idOrder")
   public Long getOrderId() {
 
-    if (this.order == null) {
-      return null;
-    }
-    return this.order.getId();
+    return this.orderId;
   }
 
   @Override
   public void setOrderId(Long orderId) {
 
-    if (orderId == null) {
-      this.order = null;
-    } else {
-      OrderEntity orderEntity = new OrderEntity();
-      orderEntity.setId(orderId);
-      this.order = orderEntity;
-    }
-  }
-
-  /**
-   * @return orders
-   */
-  @OneToMany(mappedBy = "booking", fetch = FetchType.EAGER)
-  public List<OrderEntity> getOrders() {
-
-    return this.orders;
-  }
-
-  /**
-   * @param orders new value of {@link #getorders}.
-   */
-  public void setOrders(List<OrderEntity> orders) {
-
-    this.orders = orders;
+    this.orderId = orderId;
   }
 
   /**
@@ -360,44 +311,17 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
     this.assistants = assistants;
   }
 
-  /**
-   * @return user
-   */
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idUser")
-  public UserEntity getUser() {
-
-    return this.user;
-  }
-
-  /**
-   * @param user new value of {@link #getuser}.
-   */
-  public void setUser(UserEntity user) {
-
-    this.user = user;
-  }
-
   @Override
-  @Transient
+  @Column(name = "idUser")
   public Long getUserId() {
 
-    if (this.user == null) {
-      return null;
-    }
-    return this.user.getId();
+    return this.userId;
   }
 
   @Override
   public void setUserId(Long userId) {
 
-    if (userId == null) {
-      this.user = null;
-    } else {
-      UserEntity userEntity = new UserEntity();
-      userEntity.setId(userId);
-      this.user = userEntity;
-    }
+    this.userId = userId;
   }
 
 }

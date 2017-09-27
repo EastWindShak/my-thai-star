@@ -2,17 +2,12 @@ package io.oasp.application.mtsj.ordermanagement.dataaccess.api;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import io.oasp.application.mtsj.bookingmanagement.dataaccess.api.BookingEntity;
-import io.oasp.application.mtsj.bookingmanagement.dataaccess.api.InvitedGuestEntity;
 import io.oasp.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity;
 import io.oasp.application.mtsj.ordermanagement.common.api.Order;
 
@@ -26,48 +21,46 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   private static final long serialVersionUID = 1L;
 
-  private BookingEntity booking;
+  private Long bookingId;
 
-  private InvitedGuestEntity invitedGuest;
-
-  private BookingEntity host;
+  private Long invitedGuestId;
 
   private List<OrderLineEntity> orderLines;
 
   /**
    * @return booking
    */
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idBooking")
-  public BookingEntity getBooking() {
+  @Column(name = "idBooking")
+  public Long getBookingId() {
 
-    return this.booking;
+    return this.bookingId;
   }
 
   /**
    * @param booking new value of {@link #getbooking}.
    */
-  public void setBooking(BookingEntity booking) {
+  @Override
+  public void setBookingId(Long bookingId) {
 
-    this.booking = booking;
+    this.bookingId = bookingId;
   }
 
   /**
    * @return invitedGuest
    */
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idInvitedGuest")
-  public InvitedGuestEntity getInvitedGuest() {
+  @Column(name = "idInvitedGuest")
+  public Long getInvitedGuestId() {
 
-    return this.invitedGuest;
+    return this.invitedGuestId;
   }
 
   /**
    * @param invitedGuest new value of {@link #getinvitedGuest}.
    */
-  public void setInvitedGuest(InvitedGuestEntity invitedGuest) {
+  @Override
+  public void setInvitedGuestId(Long invitedGuestId) {
 
-    this.invitedGuest = invitedGuest;
+    this.invitedGuestId = invitedGuestId;
   }
 
   /**
@@ -85,90 +78,6 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   public void setOrderLines(List<OrderLineEntity> orderLines) {
 
     this.orderLines = orderLines;
-  }
-
-  @Override
-  @Transient
-  public Long getBookingId() {
-
-    if (this.booking == null) {
-      return null;
-    }
-    return this.booking.getId();
-  }
-
-  @Override
-  public void setBookingId(Long bookingId) {
-
-    if (bookingId == null) {
-      this.booking = null;
-    } else {
-      BookingEntity bookingEntity = new BookingEntity();
-      bookingEntity.setId(bookingId);
-      this.booking = bookingEntity;
-    }
-  }
-
-  @Override
-  @Transient
-  public Long getInvitedGuestId() {
-
-    if (this.invitedGuest == null) {
-      return null;
-    }
-    return this.invitedGuest.getId();
-  }
-
-  @Override
-  public void setInvitedGuestId(Long invitedGuestId) {
-
-    if (invitedGuestId == null) {
-      this.invitedGuest = null;
-    } else {
-      InvitedGuestEntity invitedGuestEntity = new InvitedGuestEntity();
-      invitedGuestEntity.setId(invitedGuestId);
-      this.invitedGuest = invitedGuestEntity;
-    }
-  }
-
-  /**
-   * @return host
-   */
-  @OneToOne
-  @JoinColumn(name = "idHost")
-  public BookingEntity getHost() {
-
-    return this.host;
-  }
-
-  /**
-   * @param host new value of {@link #gethost}.
-   */
-  public void setHost(BookingEntity host) {
-
-    this.host = host;
-  }
-
-  @Override
-  @Transient
-  public Long getHostId() {
-
-    if (this.host == null) {
-      return null;
-    }
-    return this.host.getId();
-  }
-
-  @Override
-  public void setHostId(Long hostId) {
-
-    if (hostId == null) {
-      this.host = null;
-    } else {
-      BookingEntity bookingEntity = new BookingEntity();
-      bookingEntity.setId(hostId);
-      this.host = bookingEntity;
-    }
   }
 
 }

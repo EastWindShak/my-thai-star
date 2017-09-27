@@ -14,30 +14,10 @@ public class OrderEto extends AbstractEto implements Order {
 
   private Long invitedGuestId;
 
-  private String bookingToken;
-
-  /**
-   * @return bookingToken
-   */
-  public String getBookingToken() {
-
-    return this.bookingToken;
-  }
-
-  /**
-   * @param bookingToken new value of {@link #getbookingToken}.
-   */
-  public void setBookingToken(String bookingToken) {
-
-    this.bookingToken = bookingToken;
-  }
-
-  private Long hostId;
-
   @Override
   public Long getBookingId() {
 
-    return this.bookingId;
+    return bookingId;
   }
 
   @Override
@@ -49,7 +29,7 @@ public class OrderEto extends AbstractEto implements Order {
   @Override
   public Long getInvitedGuestId() {
 
-    return this.invitedGuestId;
+    return invitedGuestId;
   }
 
   @Override
@@ -63,9 +43,7 @@ public class OrderEto extends AbstractEto implements Order {
 
     final int prime = 31;
     int result = super.hashCode();
-
     result = prime * result + ((this.bookingId == null) ? 0 : this.bookingId.hashCode());
-
     result = prime * result + ((this.invitedGuestId == null) ? 0 : this.invitedGuestId.hashCode());
 
     return result;
@@ -85,7 +63,6 @@ public class OrderEto extends AbstractEto implements Order {
       return false;
     }
     OrderEto other = (OrderEto) obj;
-
     if (this.bookingId == null) {
       if (other.bookingId != null) {
         return false;
@@ -93,7 +70,6 @@ public class OrderEto extends AbstractEto implements Order {
     } else if (!this.bookingId.equals(other.bookingId)) {
       return false;
     }
-
     if (this.invitedGuestId == null) {
       if (other.invitedGuestId != null) {
         return false;
@@ -104,17 +80,4 @@ public class OrderEto extends AbstractEto implements Order {
 
     return true;
   }
-
-  @Override
-  public Long getHostId() {
-
-    return this.hostId;
-  }
-
-  @Override
-  public void setHostId(Long hostId) {
-
-    this.hostId = hostId;
-  }
-
 }

@@ -108,11 +108,11 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     LOG.debug("Get Order with id {} from database.", id);
     OrderEntity entity = getOrderDao().findOne(id);
     OrderCto cto = new OrderCto();
-    cto.setBooking(getBeanMapper().map(entity.getBooking(), BookingEto.class));
-    cto.setHost(getBeanMapper().map(entity.getHost(), BookingEto.class));
+    cto.setBooking(getBeanMapper().map(this.bookingManagement.findBooking(entity.getBookingId()), BookingEto.class));
     cto.setOrderLines(getBeanMapper().mapList(entity.getOrderLines(), OrderLineCto.class));
     cto.setOrder(getBeanMapper().map(entity, OrderEto.class));
-    cto.setInvitedGuest(getBeanMapper().map(entity.getInvitedGuest(), InvitedGuestEto.class));
+    cto.setInvitedGuest(getBeanMapper().map(this.bookingManagement.findInvitedGuest(entity.getInvitedGuestId()),
+        InvitedGuestEto.class));
     return cto;
   }
 
@@ -130,9 +130,9 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     PaginatedListTo<OrderEntity> orders = getOrderDao().findOrders(criteria);
     for (OrderEntity order : orders.getResult()) {
       OrderCto cto = new OrderCto();
-      cto.setBooking(getBeanMapper().map(order.getBooking(), BookingEto.class));
-      cto.setHost(getBeanMapper().map(order.getHost(), BookingEto.class));
-      cto.setInvitedGuest(getBeanMapper().map(order.getInvitedGuest(), InvitedGuestEto.class));
+      cto.setBooking(getBeanMapper().map(this.bookingManagement.findBooking(order.getBookingId()), BookingEto.class));
+      cto.setInvitedGuest(getBeanMapper().map(this.bookingManagement.findInvitedGuest(order.getInvitedGuestId()),
+          InvitedGuestEto.class));
       cto.setOrder(getBeanMapper().map(order, OrderEto.class));
       cto.setOrderLines(getBeanMapper().mapList(order.getOrderLines(), OrderLineCto.class));
       List<OrderLineCto> orderLinesCto = new ArrayList<>();
@@ -187,9 +187,10 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     }
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
-    String token = orderEntity.getBooking().getBookingToken();
+    String token = this.bookingManagement.findBooking(orderEntity.getBookingId()).getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary
-    orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);
+    orderEntity = getValidatedOrder(
+        this.bookingManagement.findBooking(orderEntity.getBookingId()).getBooking().getBookingToken(), orderEntity);
     orderEntity.setOrderLines(orderLineEntities);
     OrderEntity resultOrderEntity = getOrderDao().save(orderEntity);
     LOG.debug("Order with id '{}' has been created.", resultOrderEntity.getId());

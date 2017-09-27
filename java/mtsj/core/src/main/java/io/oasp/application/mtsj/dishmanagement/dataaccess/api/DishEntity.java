@@ -3,19 +3,15 @@ package io.oasp.application.mtsj.dishmanagement.dataaccess.api;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import io.oasp.application.mtsj.dishmanagement.common.api.Dish;
 import io.oasp.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity;
-import io.oasp.application.mtsj.imagemanagement.dataaccess.api.ImageEntity;
 
 /**
  * The {@link io.oasp.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
@@ -33,7 +29,7 @@ public class DishEntity extends ApplicationPersistenceEntity implements Dish {
 
   private BigDecimal price;
 
-  private ImageEntity image;
+  private Long imageId;
 
   private List<IngredientEntity> extras;
 
@@ -90,19 +86,18 @@ public class DishEntity extends ApplicationPersistenceEntity implements Dish {
   /**
    * @return image
    */
-  @OneToOne
-  @JoinColumn(name = "idImage")
-  public ImageEntity getImage() {
+  @Column(name = "idImage")
+  public Long getImageId() {
 
-    return this.image;
+    return this.imageId;
   }
 
   /**
    * @param image new value of {@link #getImage}.
    */
-  public void setImage(ImageEntity image) {
+  public void setImageId(Long image) {
 
-    this.image = image;
+    this.imageId = this.imageId;
   }
 
   /**
@@ -135,34 +130,8 @@ public class DishEntity extends ApplicationPersistenceEntity implements Dish {
     return this.categories;
   }
 
-  /**
-   * @param categories new value of {@link #getCategories}.
-   */
   public void setCategories(List<CategoryEntity> categories) {
 
     this.categories = categories;
   }
-
-  @Override
-  @Transient
-  public Long getImageId() {
-
-    if (this.image == null) {
-      return null;
-    }
-    return this.image.getId();
-  }
-
-  @Override
-  public void setImageId(Long imageId) {
-
-    if (imageId == null) {
-      this.image = null;
-    } else {
-      ImageEntity imageEntity = new ImageEntity();
-      imageEntity.setId(imageId);
-      this.image = imageEntity;
-    }
-  }
-
 }

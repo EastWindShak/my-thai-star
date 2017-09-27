@@ -12,8 +12,4 @@ public interface Order extends ApplicationEntity {
 
   public void setInvitedGuestId(Long invitedGuestId);
 
-  public Long getHostId();
-
-  public void setHostId(Long hostId);
-
 }

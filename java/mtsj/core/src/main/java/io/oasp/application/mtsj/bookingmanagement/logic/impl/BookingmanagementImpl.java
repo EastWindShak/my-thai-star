@@ -42,6 +42,7 @@ import io.oasp.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 import io.oasp.application.mtsj.ordermanagement.logic.api.to.OrderCto;
 import io.oasp.application.mtsj.ordermanagement.logic.api.to.OrderEto;
 import io.oasp.application.mtsj.ordermanagement.logic.api.to.OrderSearchCriteriaTo;
+import io.oasp.application.mtsj.usermanagement.logic.api.Usermanagement;
 import io.oasp.application.mtsj.usermanagement.logic.api.to.UserEto;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 
@@ -88,6 +89,9 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
   private Ordermanagement orderManagement;
 
   @Inject
+  private Usermanagement userManagement;
+
+  @Inject
   private Mail mailService;
 
   /**
@@ -106,9 +110,11 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
     BookingCto cto = new BookingCto();
     cto.setBooking(getBeanMapper().map(entity, BookingEto.class));
     cto.setTable(getBeanMapper().map(entity.getTable(), TableEto.class));
-    cto.setOrder(getBeanMapper().map(entity.getOrder(), OrderEto.class));
+    cto.setOrder(getBeanMapper().map(this.orderManagement.findOrder(entity.getOrderId()), OrderEto.class));
     cto.setInvitedGuests(getBeanMapper().mapList(entity.getInvitedGuests(), InvitedGuestEto.class));
-    cto.setOrders(getBeanMapper().mapList(entity.getOrders(), OrderEto.class));
+    OrderSearchCriteriaTo criteria = new OrderSearchCriteriaTo();
+    criteria.setBookingId(id);
+    cto.setOrders(getBeanMapper().mapList(this.orderManagement.findOrdersByPost(criteria).getResult(), OrderEto.class));
     return cto;
   }
 
@@ -129,10 +135,13 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
       BookingCto cto = new BookingCto();
       cto.setBooking(getBeanMapper().map(entity, BookingEto.class));
       cto.setInvitedGuests(getBeanMapper().mapList(entity.getInvitedGuests(), InvitedGuestEto.class));
-      cto.setOrder(getBeanMapper().map(entity.getOrder(), OrderEto.class));
+      cto.setOrder(getBeanMapper().map(this.orderManagement.findOrder(entity.getOrderId()), OrderEto.class));
       cto.setTable(getBeanMapper().map(entity.getTable(), TableEto.class));
-      cto.setUser(getBeanMapper().map(entity.getUser(), UserEto.class));
-      cto.setOrders(getBeanMapper().mapList(entity.getOrders(), OrderEto.class));
+      cto.setUser(getBeanMapper().map(this.userManagement.findUser(entity.getUserId()), UserEto.class));
+      OrderSearchCriteriaTo orderCriteria = new OrderSearchCriteriaTo();
+      orderCriteria.setBookingId(entity.getId());
+      cto.setOrders(
+          getBeanMapper().mapList(this.orderManagement.findOrdersByPost(orderCriteria).getResult(), OrderEto.class));
       ctos.add(cto);
 
     }
@@ -253,7 +262,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
 
     InvitedGuestEntity invitedGuest = getInvitedGuestDao().find(invitedGuestId);
     OrderSearchCriteriaTo criteria = new OrderSearchCriteriaTo();
-    criteria.setHostToken(invitedGuest.getBooking().getBookingToken());
+    criteria.setBookingId(invitedGuest.getBookingId());
     List<OrderCto> guestOrdersCto = this.orderManagement.findOrderCtos(criteria).getResult();
     for (OrderCto orderCto : guestOrdersCto) {
       this.orderManagement.deleteOrder(orderCto.getOrder().getId());

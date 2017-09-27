@@ -27,6 +27,7 @@ import io.oasp.application.mtsj.dishmanagement.logic.api.to.DishSearchCriteriaTo
 import io.oasp.application.mtsj.dishmanagement.logic.api.to.IngredientEto;
 import io.oasp.application.mtsj.dishmanagement.logic.api.to.IngredientSearchCriteriaTo;
 import io.oasp.application.mtsj.general.logic.base.AbstractComponentFacade;
+import io.oasp.application.mtsj.imagemanagement.logic.api.Imagemanagement;
 import io.oasp.application.mtsj.imagemanagement.logic.api.to.ImageEto;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 
@@ -59,6 +60,9 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
    */
   @Inject
   private IngredientDao ingredientDao;
+
+  @Inject
+  private Imagemanagement imageManagement;
 
   /**
    * The constructor.
@@ -122,7 +126,7 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
     DishEntity entity = getDishDao().findOne(id);
     DishCto cto = new DishCto();
     cto.setCategories(getBeanMapper().mapList(entity.getCategories(), CategoryEto.class));
-    cto.setImage(getBeanMapper().map(entity.getImage(), ImageEto.class));
+    cto.setImage(getBeanMapper().map(this.imageManagement.findImage(entity.getImageId()), ImageEto.class));
     cto.setDish(getBeanMapper().map(entity, DishEto.class));
     cto.setExtras(getBeanMapper().mapList(entity.getExtras(), IngredientEto.class));
     return cto;
@@ -138,7 +142,7 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
     for (DishEntity dish : searchResult.getResult()) {
       DishCto cto = new DishCto();
       cto.setDish(getBeanMapper().map(dish, DishEto.class));
-      cto.setImage(getBeanMapper().map(dish.getImage(), ImageEto.class));
+      cto.setImage(getBeanMapper().map(this.imageManagement.findImage(dish.getImageId()), ImageEto.class));
       cto.setCategories(getBeanMapper().mapList(dish.getCategories(), CategoryEto.class));
       cto.setExtras(getBeanMapper().mapList(dish.getExtras(), IngredientEto.class));
       ctos.add(cto);
