@@ -18,7 +18,7 @@ public class InvitedGuestSearchCriteriaTo extends SearchCriteriaTo {
 
   private String email;
 
-  private Boolean accepted;
+  private boolean accepted;
 
   private Timestamp modificationDate;
 
@@ -60,12 +60,12 @@ public class InvitedGuestSearchCriteriaTo extends SearchCriteriaTo {
     this.email = email;
   }
 
-  public Boolean getAccepted() {
+  public boolean getAccepted() {
 
     return this.accepted;
   }
 
-  public void setAccepted(Boolean accepted) {
+  public void setAccepted(boolean accepted) {
 
     this.accepted = accepted;
   }

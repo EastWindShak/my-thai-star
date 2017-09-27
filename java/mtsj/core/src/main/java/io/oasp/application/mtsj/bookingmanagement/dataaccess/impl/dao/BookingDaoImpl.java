@@ -73,10 +73,9 @@ public class BookingDaoImpl extends ApplicationDaoImpl<BookingEntity> implements
     if (email != null) {
       query.where(Alias.$(booking.getEmail()).eq(email));
     }
-    Boolean canceled = criteria.getCanceled();
-    if (canceled != null) {
-      query.where(Alias.$(booking.getCanceled()).eq(canceled));
-    }
+
+    query.where(Alias.$(booking.getCanceled()).eq(criteria.getCanceled()));
+
     BookingType bookingType = criteria.getBookingType();
     if (bookingType != null) {
       query.where(Alias.$(booking.getBookingType()).eq(bookingType));

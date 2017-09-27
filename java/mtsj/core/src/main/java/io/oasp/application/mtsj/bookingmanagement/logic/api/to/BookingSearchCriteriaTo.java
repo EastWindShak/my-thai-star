@@ -27,7 +27,7 @@ public class BookingSearchCriteriaTo extends SearchCriteriaTo {
 
   private String email;
 
-  private Boolean canceled;
+  private boolean canceled;
 
   private BookingType bookingType;
 
@@ -117,12 +117,12 @@ public class BookingSearchCriteriaTo extends SearchCriteriaTo {
     this.email = email;
   }
 
-  public Boolean getCanceled() {
+  public boolean getCanceled() {
 
     return this.canceled;
   }
 
-  public void setCanceled(Boolean canceled) {
+  public void setCanceled(boolean canceled) {
 
     this.canceled = canceled;
   }
@@ -149,7 +149,7 @@ public class BookingSearchCriteriaTo extends SearchCriteriaTo {
 
   public Long getOrderId() {
 
-    return orderId;
+    return this.orderId;
   }
 
   public void setOrderId(Long orderId) {
@@ -159,7 +159,7 @@ public class BookingSearchCriteriaTo extends SearchCriteriaTo {
 
   public Integer getAssistants() {
 
-    return assistants;
+    return this.assistants;
   }
 
   public void setAssistants(Integer assistants) {
@@ -169,7 +169,7 @@ public class BookingSearchCriteriaTo extends SearchCriteriaTo {
 
   public Long getUserId() {
 
-    return userId;
+    return this.userId;
   }
 
   public void setUserId(Long userId) {

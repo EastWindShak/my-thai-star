@@ -53,7 +53,6 @@ CREATE TABLE Booking (
   idOrder BIGINT,
   assistants INTEGER,
   CONSTRAINT PK_Booking PRIMARY KEY(id),
-  CONSTRAINT FK_Booking_idUser FOREIGN KEY(idUser) REFERENCES User(id) NOCHECK,
   CONSTRAINT FK_Booking_idTable FOREIGN KEY(idTable) REFERENCES Table(id) NOCHECK
 );
 
@@ -78,7 +77,6 @@ CREATE TABLE Orders (
   idBooking BIGINT NOT NULL,
   idInvitedGuest BIGINT,
   CONSTRAINT PK_Order PRIMARY KEY(id),
-  CONSTRAINT FK_Order_idBooking FOREIGN KEY(idBooking) REFERENCES Booking(id) NOCHECK,
   CONSTRAINT FK_Order_idInvitedGuest FOREIGN KEY(idInvitedGuest) REFERENCES InvitedGuest(id) NOCHECK
 );
 
@@ -111,8 +109,7 @@ CREATE TABLE Dish (
   description VARCHAR (4000),
   price DECIMAL (16,10),
   idImage BIGINT UNIQUE NOT NULL,
-  CONSTRAINT PK_Dish PRIMARY KEY(id),
-  CONSTRAINT FK_Dish_idImage FOREIGN KEY(idImage) REFERENCES Image(id) NOCHECK,
+  CONSTRAINT PK_Dish PRIMARY KEY(id)
 );
 
 -- *** DishCategory ***
@@ -156,7 +153,6 @@ CREATE TABLE OrderLine (
   comment VARCHAR (255),
   idOrder BIGINT NOT NULL,
   CONSTRAINT PK_OrderLine PRIMARY KEY(id),
-  CONSTRAINT FK_OrderLine_idDish FOREIGN KEY(idDish) REFERENCES Dish(id) NOCHECK,
   CONSTRAINT FK_OrderLine_idOrder FOREIGN KEY(idOrder) REFERENCES Orders(id) NOCHECK
 );
 
@@ -178,8 +174,7 @@ CREATE TABLE UserFavourite (
   idUser BIGINT NOT NULL,
   idDish BIGINT NOT NULL,
   CONSTRAINT PK_UserFavourite PRIMARY KEY(id),
-  CONSTRAINT FK_UserFavourite_idUser FOREIGN KEY(idUser) REFERENCES User(id) NOCHECK,
-  CONSTRAINT FK_UserFavourite_idDish FOREIGN KEY(idDish) REFERENCES Dish(id) NOCHECK
+  CONSTRAINT FK_UserFavourite_idUser FOREIGN KEY(idUser) REFERENCES User(id) NOCHECK
 );
 
 -- *************************************************************************

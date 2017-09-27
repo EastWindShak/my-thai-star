@@ -46,7 +46,7 @@ public class InvitedGuestDaoImpl extends ApplicationDaoImpl<InvitedGuestEntity> 
 
     Long booking = criteria.getBookingId();
     if (booking != null && invitedguest.getBooking() != null) {
-        query.where(Alias.$(invitedguest.getBooking().getId()).eq(booking));
+      query.where(Alias.$(invitedguest.getBooking().getId()).eq(booking));
     }
     String guestToken = criteria.getGuestToken();
     if (guestToken != null) {
@@ -56,10 +56,7 @@ public class InvitedGuestDaoImpl extends ApplicationDaoImpl<InvitedGuestEntity> 
     if (email != null) {
       query.where(Alias.$(invitedguest.getEmail()).eq(email));
     }
-    Boolean accepted = criteria.getAccepted();
-    if (accepted != null) {
-      query.where(Alias.$(invitedguest.getAccepted()).eq(accepted));
-    }
+    query.where(Alias.$(invitedguest.getAccepted()).eq(criteria.getAccepted()));
     Timestamp modificationDate = criteria.getModificationDate();
     if (modificationDate != null) {
       query.where(Alias.$(invitedguest.getModificationDate()).eq(modificationDate));

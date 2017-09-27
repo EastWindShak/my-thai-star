@@ -12,7 +12,7 @@ public class UserRoleSearchCriteriaTo extends SearchCriteriaTo {
 
   private String name;
 
-  private Boolean active;
+  private boolean active;
 
   /**
    * The constructor.
@@ -24,7 +24,7 @@ public class UserRoleSearchCriteriaTo extends SearchCriteriaTo {
 
   public String getName() {
 
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -32,12 +32,12 @@ public class UserRoleSearchCriteriaTo extends SearchCriteriaTo {
     this.name = name;
   }
 
-  public Boolean getActive() {
+  public boolean getActive() {
 
-    return active;
+    return this.active;
   }
 
-  public void setActive(Boolean active) {
+  public void setActive(boolean active) {
 
     this.active = active;
   }

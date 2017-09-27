@@ -142,6 +142,7 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
     for (DishEntity dish : searchResult.getResult()) {
       DishCto cto = new DishCto();
       cto.setDish(getBeanMapper().map(dish, DishEto.class));
+      System.out.println(dish.getImageId());
       cto.setImage(getBeanMapper().map(this.imageManagement.findImage(dish.getImageId()), ImageEto.class));
       cto.setCategories(getBeanMapper().mapList(dish.getCategories(), CategoryEto.class));
       cto.setExtras(getBeanMapper().mapList(dish.getExtras(), IngredientEto.class));

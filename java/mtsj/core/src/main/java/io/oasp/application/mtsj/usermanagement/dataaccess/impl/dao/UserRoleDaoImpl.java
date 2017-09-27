@@ -47,10 +47,9 @@ public class UserRoleDaoImpl extends ApplicationDaoImpl<UserRoleEntity> implemen
     if (name != null) {
       query.where(Alias.$(userrole.getName()).eq(name));
     }
-    Boolean active = criteria.getActive();
-    if (active != null) {
-      query.where(Alias.$(userrole.getActive()).eq(active));
-    }
+
+    query.where(Alias.$(userrole.getActive()).eq(criteria.getActive()));
+
     return findPaginated(criteria, query, alias);
   }
 
